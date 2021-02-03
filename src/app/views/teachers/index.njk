@@ -1,0 +1,59 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+<main>
+    <div class="card table-container">
+
+        <div class="card-header">
+            <a href="/professores/criar" class="button">Novo</a>
+            <form action="/professores" method="GET">
+                <input 
+                    type="text" 
+                    name="filter"
+                    placeholder="Nome ou Acompanhamento"
+                    value="{{ filter }}"
+                >
+                <button type="submit">Filtrar</button>
+            </form>
+        </div>
+
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th>Nome completo</th>
+                    <th>Acompanhamento</th>
+                    <th>Alunos</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                    <td>
+                        <span style="background-image: url({{ teacher.avatar_url }})"></span>
+                        {{ teacher.name }}
+                    </td>
+                    <td>
+                        {% for subjects in teacher.subjects_taught.split(",") %}
+                            <span>{{ subjects }}</span>
+                        {% endfor %}
+                    </td>
+                    <td>{{ teacher.total_students }}</td>
+                    <td><a href="/professores/{{ teacher.id }}">Ver</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination"
+        data-page="{{ pagination.page }}"
+        data-total="{{ pagination.total }}"
+        data-filter="{{ filter }}"
+        ></div>
+    </div>
+</main>
+
+
+
+<script src="scripts.js"></script>
+{% endblock content %}

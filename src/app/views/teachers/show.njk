@@ -1,0 +1,56 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+<main>
+    <div class="card">
+        <section 
+            class="avatar" 
+            style="border-radius: 4px 0 0 4px; background: url({{ teacher.avatar_url }}) no-repeat center center / cover">
+        </section>
+        <section class="details">
+
+            <h3>Detalhes</h3>
+
+            <div class="item">
+                <div>Nome completo</div>
+                <div>{{ teacher.name }}</div>
+            </div>
+            <div class="item">
+                <div>Idade</div>
+                <div>{{ teacher.birth_date }}</div>
+            </div>
+            <div class="item">
+                <div>Grau de escolaridade</div>
+                <div>{{ teacher.education_level }}</div>
+            </div>
+            <div class="item">
+                <div>Tipo de aula</div>
+                <div>{{ "Presencial" if teacher.type_class == "presential" else "À distância"}}</div>
+            </div>
+            <div class="item">
+                <div>Àrea de atuação</div>
+                <div>
+                    {% for subjects in teacher.subjects_taught %}
+                        <span>{{ subjects }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="item">
+                <div>Desde</div>
+                <div>{{ teacher.created_at }}</div>
+            </div>
+
+            
+            <form class="grid-button" method="POST" action="/professores?_method=DELETE" id="form-delete">
+                <a class="button" href="/professores/{{ teacher.id }}/editar">Editar</a>
+                <input type="hidden" name="id" value="{{ teacher.id }}">
+                <button id="form-delete" class="button" type="submit">Deletar</button>
+            </form>
+
+        </section>
+    </div>
+</main>
+
+{%  include '../confirm.njk'%}
+
+{% endblock content %}
